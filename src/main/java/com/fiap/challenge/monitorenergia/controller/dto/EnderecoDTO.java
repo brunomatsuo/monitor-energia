@@ -25,8 +25,6 @@ public class EnderecoDTO {
     private String cidade;
     @JsonProperty
     @NotBlank(message = "O estado é obrigatório e não pode ser nulo.")
-    @Min(value = 2, message = "Insira a sigla do estado.")
-    @Max(value = 2, message = "Insira a sigla do estado.")
     private String estado;
 
     public EnderecoDTO(String rua, int numero, String complemento, String bairro, String cidade, String estado) {
