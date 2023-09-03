@@ -1,9 +1,8 @@
-package com.fiap.challenge.monitorenergia.dominio;
+package com.fiap.challenge.monitorenergia.dominio.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.controller.dto.EnderecoDTO;
+import com.fiap.challenge.monitorenergia.dominio.dto.EnderecoDTO;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 @EqualsAndHashCode
 public class Endereco {

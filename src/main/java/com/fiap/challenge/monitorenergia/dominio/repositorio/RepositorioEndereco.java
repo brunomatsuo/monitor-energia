@@ -1,6 +1,6 @@
-package com.fiap.challenge.monitorenergia.repositorio;
+package com.fiap.challenge.monitorenergia.dominio.repositorio;
 
-import com.fiap.challenge.monitorenergia.dominio.Endereco;
+import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;

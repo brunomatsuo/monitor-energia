@@ -1,8 +1,7 @@
-package com.fiap.challenge.monitorenergia.controller;
+package com.fiap.challenge.monitorenergia.dominio.controller;
 
-import com.fiap.challenge.monitorenergia.controller.dto.PessoaDTO;
-import com.fiap.challenge.monitorenergia.dominio.Pessoa;
-import com.fiap.challenge.monitorenergia.repositorio.RepositorioPessoa;
+import com.fiap.challenge.monitorenergia.dominio.dto.PessoaDTO;
+import com.fiap.challenge.monitorenergia.dominio.repositorio.RepositorioPessoa;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;

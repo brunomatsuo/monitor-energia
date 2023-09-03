@@ -1,7 +1,7 @@
-package com.fiap.challenge.monitorenergia.controller;
+package com.fiap.challenge.monitorenergia.dominio.controller;
 
-import com.fiap.challenge.monitorenergia.controller.dto.EnderecoDTO;
-import com.fiap.challenge.monitorenergia.repositorio.RepositorioEndereco;
+import com.fiap.challenge.monitorenergia.dominio.dto.EnderecoDTO;
+import com.fiap.challenge.monitorenergia.dominio.repositorio.RepositorioEndereco;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;

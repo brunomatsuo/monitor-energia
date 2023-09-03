@@ -1,7 +1,7 @@
-package com.fiap.challenge.monitorenergia.dominio;
+package com.fiap.challenge.monitorenergia.dominio.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.controller.dto.EletrodomesticoDTO;
+import com.fiap.challenge.monitorenergia.dominio.dto.EletrodomesticoDTO;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode

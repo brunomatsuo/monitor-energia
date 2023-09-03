@@ -1,10 +1,7 @@
-package com.fiap.challenge.monitorenergia.controller.dto;
+package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.Endereco;
-import com.fiap.challenge.monitorenergia.dominio.Usuario;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 

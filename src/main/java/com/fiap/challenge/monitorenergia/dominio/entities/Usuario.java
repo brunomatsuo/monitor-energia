@@ -1,13 +1,13 @@
-package com.fiap.challenge.monitorenergia.dominio;
+package com.fiap.challenge.monitorenergia.dominio.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.controller.dto.PessoaDTO;
+import com.fiap.challenge.monitorenergia.dominio.dto.UsuarioDTO;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
 @EqualsAndHashCode
-public class Pessoa {
+public class Usuario {
     @JsonProperty
     private String nome;
     @JsonProperty
@@ -15,16 +15,16 @@ public class Pessoa {
     @JsonProperty
     private String sexo;
     @JsonProperty
-    private String parentesco;
+    private String email;
 
-    public Pessoa(String nome, LocalDate dataNascimento, String sexo, String parentesco) {
+    public Usuario(String nome, LocalDate dataNascimento, String sexo, String email) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;
-        this.parentesco = parentesco;
+        this.email = email;
     }
 
-    public PessoaDTO toPessoaDto(){
-        return new PessoaDTO(nome, dataNascimento, sexo, parentesco);
+    public UsuarioDTO toUsuarioDto(){
+        return new UsuarioDTO(nome, dataNascimento, sexo, email);
     }
 }

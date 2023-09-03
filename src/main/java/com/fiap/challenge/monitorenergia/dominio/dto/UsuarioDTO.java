@@ -1,7 +1,7 @@
-package com.fiap.challenge.monitorenergia.controller.dto;
+package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.Usuario;
+import com.fiap.challenge.monitorenergia.dominio.entities.Usuario;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;

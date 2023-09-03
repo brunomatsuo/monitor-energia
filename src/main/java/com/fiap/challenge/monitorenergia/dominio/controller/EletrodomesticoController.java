@@ -1,8 +1,7 @@
-package com.fiap.challenge.monitorenergia.controller;
+package com.fiap.challenge.monitorenergia.dominio.controller;
 
-import com.fiap.challenge.monitorenergia.controller.dto.EletrodomesticoDTO;
-import com.fiap.challenge.monitorenergia.dominio.Eletrodomestico;
-import com.fiap.challenge.monitorenergia.repositorio.RepositorioEletrodomestico;
+import com.fiap.challenge.monitorenergia.dominio.dto.EletrodomesticoDTO;
+import com.fiap.challenge.monitorenergia.dominio.repositorio.RepositorioEletrodomestico;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;

@@ -1,7 +1,7 @@
-package com.fiap.challenge.monitorenergia.controller.dto;
+package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.Pessoa;
+import com.fiap.challenge.monitorenergia.dominio.entities.Pessoa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
