@@ -1,63 +1,70 @@
 package com.fiap.challenge.monitorenergia.dominio.controller;
 
 import com.fiap.challenge.monitorenergia.dominio.dto.EletrodomesticoDTO;
-import com.fiap.challenge.monitorenergia.dominio.repositorio.RepositorioEletrodomestico;
+import com.fiap.challenge.monitorenergia.dominio.services.EletrodomesticoService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/eletrodomesticos")
 public class EletrodomesticoController {
 
     @Autowired
-    private RepositorioEletrodomestico repositorioEletrodomestico;
-
-    @Autowired
-    private Validator validator;
+    private EletrodomesticoService service;
 
     @GetMapping
-    public ResponseEntity getEletrodomesticos(){
-        Set<EletrodomesticoDTO> eletrodomesticos = new HashSet<>();
-        repositorioEletrodomestico.getEletrodomesticos()
-                .forEach(eletrodomestico -> eletrodomesticos.add(eletrodomestico.toEletrodomesticoDTO()));
-        return ResponseEntity.ok(eletrodomesticos);
+    public ResponseEntity<Page<EletrodomesticoDTO>> getEletrodomesticos(
+            @RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+            @RequestParam(value = "quatidade", defaultValue = "10") Integer quantidade,
+            @RequestParam(value = "direcao", defaultValue = "DESC") String direcao,
+            @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao
+    ){
+        PageRequest pageRequest = PageRequest.of(pagina, quantidade, Sort.Direction.valueOf(direcao), ordenacao);
+        var list = service.findAll(pageRequest);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EletrodomesticoDTO> findById(
+            @PathVariable Long id
+    ){
+        EletrodomesticoDTO eletrodomesticoDTO = service.findById(id);
+        return ResponseEntity.ok(eletrodomesticoDTO);
     }
 
     @PostMapping
-    public ResponseEntity novoEletrodomestico(@RequestBody EletrodomesticoDTO eletrodomesticoDTO){
-        Map<Path, String> violacoesToMap = validar(eletrodomesticoDTO);
+    public ResponseEntity<EletrodomesticoDTO> novoEletrodomestico(@RequestBody EletrodomesticoDTO dto){
+        EletrodomesticoDTO eletrodomesticoDTO = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand((eletrodomesticoDTO.getId())).toUri();
 
-        if(!violacoesToMap.isEmpty()){
-            return ResponseEntity.badRequest().body(violacoesToMap);
-        }
-
-        repositorioEletrodomestico.salvar(eletrodomesticoDTO.toEletrodomestico());
-        return ResponseEntity.created(null).body(eletrodomesticoDTO);
+        return ResponseEntity.created(uri).body(eletrodomesticoDTO);
     }
 
-    @DeleteMapping
-    public ResponseEntity removerEletrodomestico(@RequestBody EletrodomesticoDTO eletrodomesticoDTO){
-        boolean removido = repositorioEletrodomestico.removerEletrodomestico(eletrodomesticoDTO.toEletrodomestico());
-        if(!removido){
-            return ResponseEntity.badRequest().body("Eletrodoméstico não existe");
-        }
-        return ResponseEntity.ok("Eletroméstico removido com sucesso.");
+    @PutMapping("/{id}")
+    public ResponseEntity<EletrodomesticoDTO> updateEletrodomestico(
+            @PathVariable Long id,
+            @RequestBody EletrodomesticoDTO dto
+    ){
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
     }
 
-    private <T> Map<Path, String> validar(T dto){
-        Set<ConstraintViolation<T>> violacoes = validator.validate(dto);
-        Map<Path, String> violacoesToMap = violacoes.stream().collect(Collectors.toMap(
-                violacao -> violacao.getPropertyPath(), violacao -> violacao.getMessage()
-        ));
-        return violacoesToMap;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removerEletrodomestico(
+            @PathVariable Long id
+    ){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
+
 }

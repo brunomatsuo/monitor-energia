@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Positive;
 
 public class EletrodomesticoDTO {
     @JsonProperty
+    private Long id;
+    @JsonProperty
     @NotBlank(message = "O nome do eletrodoméstico é obrigatório e não pode ser nulo.")
     private String nome;
     @JsonProperty
@@ -22,14 +24,29 @@ public class EletrodomesticoDTO {
     @Positive(message = "Insira uma voltagem válida.")
     private int voltagem;
 
-    public EletrodomesticoDTO(String nome, String modelo, int potencia, int voltagem) {
+    public EletrodomesticoDTO(){}
+
+    public EletrodomesticoDTO(Long id, String nome, String modelo, int potencia, int voltagem) {
+        this.id = id;
         this.nome = nome;
         this.modelo = modelo;
         this.potencia = potencia;
         this.voltagem = voltagem;
     }
 
+    public EletrodomesticoDTO(Eletrodomestico eletrodomestico) {
+        this.id = eletrodomestico.getId();
+        this.nome = eletrodomestico.getNome();
+        this.modelo = eletrodomestico.getModelo();
+        this.potencia = eletrodomestico.getPotencia();
+        this.voltagem = eletrodomestico.getVoltagem();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public Eletrodomestico toEletrodomestico(){
-        return new Eletrodomestico(nome, modelo, potencia, voltagem);
+        return new Eletrodomestico(id, nome, modelo, potencia, voltagem);
     }
 }
