@@ -1,6 +1,5 @@
 package com.fiap.challenge.monitorenergia.dominio.entities;
 
-import com.fiap.challenge.monitorenergia.dominio.dto.EletrodomesticoDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -19,24 +18,15 @@ public class Eletrodomestico {
 
     public Eletrodomestico(){}
 
-    public Eletrodomestico(Long id, String nome, String modelo, int potencia, int voltagem) {
-        this.id = id;
+    public Eletrodomestico(String nome, String modelo, int potencia, int voltagem) {
         this.nome = nome;
         this.modelo = modelo;
         this.potencia = potencia;
         this.voltagem = voltagem;
     }
 
-    public EletrodomesticoDTO toEletrodomesticoDTO(){
-        return new EletrodomesticoDTO(id, nome, modelo, potencia, voltagem);
-    }
-
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {

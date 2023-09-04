@@ -1,12 +1,13 @@
 package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.entities.Usuario;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public class UsuarioDTO {
+    @JsonProperty
+    private Long id;
     @JsonProperty
     @NotBlank(message = "O nome é obrigatório e não pode ser nulo.")
     private String nome;
@@ -22,6 +23,8 @@ public class UsuarioDTO {
     @NotBlank(message = "O e-mail é obrigatório e não pode ser nulo.")
     private String email;
 
+    public UsuarioDTO(){}
+
     public UsuarioDTO(String nome, LocalDate dataNascimento, String sexo, String email) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -29,7 +32,43 @@ public class UsuarioDTO {
         this.email = email;
     }
 
-    public Usuario toUsuario(){
-        return new Usuario(nome, dataNascimento, sexo, email);
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

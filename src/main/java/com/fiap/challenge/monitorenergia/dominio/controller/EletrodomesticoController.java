@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/eletrodomesticos")
@@ -21,6 +24,9 @@ public class EletrodomesticoController {
 
     @Autowired
     private EletrodomesticoService service;
+
+    @Autowired
+    private Validator validator;
 
     @GetMapping
     public ResponseEntity<Page<EletrodomesticoDTO>> getEletrodomesticos(
@@ -43,7 +49,13 @@ public class EletrodomesticoController {
     }
 
     @PostMapping
-    public ResponseEntity<EletrodomesticoDTO> novoEletrodomestico(@RequestBody EletrodomesticoDTO dto){
+    public ResponseEntity novoEletrodomestico(@RequestBody EletrodomesticoDTO dto){
+        Map<Path, String> violacoesToMap = validar(dto);
+
+        if(!violacoesToMap.isEmpty()){
+            return ResponseEntity.badRequest().body(violacoesToMap);
+        }
+
         EletrodomesticoDTO eletrodomesticoDTO = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand((eletrodomesticoDTO.getId())).toUri();
 
@@ -51,10 +63,16 @@ public class EletrodomesticoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EletrodomesticoDTO> updateEletrodomestico(
+    public ResponseEntity updateEletrodomestico(
             @PathVariable Long id,
             @RequestBody EletrodomesticoDTO dto
     ){
+        Map<Path, String> violacoesToMap = validar(dto);
+
+        if(!violacoesToMap.isEmpty()){
+            return ResponseEntity.badRequest().body(violacoesToMap);
+        }
+
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
@@ -65,6 +83,14 @@ public class EletrodomesticoController {
     ){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private <T> Map<Path, String> validar(T dto){
+        Set<ConstraintViolation<T>> violacoes = validator.validate(dto);
+        Map<Path, String> violacoesToMap = violacoes.stream().collect(Collectors.toMap(
+                violacao -> violacao.getPropertyPath(), violacao -> violacao.getMessage()
+        ));
+        return violacoesToMap;
     }
 
 }

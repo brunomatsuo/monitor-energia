@@ -1,21 +1,20 @@
 package com.fiap.challenge.monitorenergia.dominio.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.dto.UsuarioDTO;
-import lombok.EqualsAndHashCode;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@EqualsAndHashCode
+@Entity
+@Table(name = "tb_usuarios")
 public class Usuario {
-    @JsonProperty
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
-    @JsonProperty
     private LocalDate dataNascimento;
-    @JsonProperty
     private String sexo;
-    @JsonProperty
     private String email;
+
+    public Usuario(){}
 
     public Usuario(String nome, LocalDate dataNascimento, String sexo, String email) {
         this.nome = nome;
@@ -24,7 +23,39 @@ public class Usuario {
         this.email = email;
     }
 
-    public UsuarioDTO toUsuarioDto(){
-        return new UsuarioDTO(nome, dataNascimento, sexo, email);
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

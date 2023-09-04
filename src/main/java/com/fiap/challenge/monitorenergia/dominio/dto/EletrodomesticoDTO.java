@@ -1,7 +1,6 @@
 package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.entities.Eletrodomestico;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -26,27 +25,51 @@ public class EletrodomesticoDTO {
 
     public EletrodomesticoDTO(){}
 
-    public EletrodomesticoDTO(Long id, String nome, String modelo, int potencia, int voltagem) {
-        this.id = id;
+    public EletrodomesticoDTO(String nome, String modelo, int potencia, int voltagem) {
         this.nome = nome;
         this.modelo = modelo;
         this.potencia = potencia;
         this.voltagem = voltagem;
     }
 
-    public EletrodomesticoDTO(Eletrodomestico eletrodomestico) {
-        this.id = eletrodomestico.getId();
-        this.nome = eletrodomestico.getNome();
-        this.modelo = eletrodomestico.getModelo();
-        this.potencia = eletrodomestico.getPotencia();
-        this.voltagem = eletrodomestico.getVoltagem();
-    }
-
     public Long getId() {
         return id;
     }
 
-    public Eletrodomestico toEletrodomestico(){
-        return new Eletrodomestico(id, nome, modelo, potencia, voltagem);
+    public void setId(Long id) {
+        this.id = id;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getPotencia() {
+        return potencia;
+    }
+
+    public void setPotencia(int potencia) {
+        this.potencia = potencia;
+    }
+
+    public int getVoltagem() {
+        return voltagem;
+    }
+
+    public void setVoltagem(int voltagem) {
+        this.voltagem = voltagem;
+    }
+
 }
