@@ -11,4 +11,6 @@ Tecnologias e ferramentas utilizadas:
 - Java 17
 - Lombok
 - Bean Validator
+- JPA
+- PostgreSQL
 - IDE IntelliJ
