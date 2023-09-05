@@ -14,3 +14,9 @@ Tecnologias e ferramentas utilizadas:
 - JPA
 - PostgreSQL
 - IDE IntelliJ
+
+Relacionamentos:
+
+- Cada pessoa está associada a um usuário
+- Mais de uma pessoa pode ser associada ao mesmo usuário
+- Cada endereço está associado a um usuário
