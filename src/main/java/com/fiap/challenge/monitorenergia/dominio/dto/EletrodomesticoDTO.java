@@ -1,12 +1,13 @@
 package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.entities.Eletrodomestico;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public class EletrodomesticoDTO {
+    @JsonProperty
+    private Long id;
     @JsonProperty
     @NotBlank(message = "O nome do eletrodoméstico é obrigatório e não pode ser nulo.")
     private String nome;
@@ -22,6 +23,8 @@ public class EletrodomesticoDTO {
     @Positive(message = "Insira uma voltagem válida.")
     private int voltagem;
 
+    public EletrodomesticoDTO(){}
+
     public EletrodomesticoDTO(String nome, String modelo, int potencia, int voltagem) {
         this.nome = nome;
         this.modelo = modelo;
@@ -29,7 +32,44 @@ public class EletrodomesticoDTO {
         this.voltagem = voltagem;
     }
 
-    public Eletrodomestico toEletrodomestico(){
-        return new Eletrodomestico(nome, modelo, potencia, voltagem);
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getPotencia() {
+        return potencia;
+    }
+
+    public void setPotencia(int potencia) {
+        this.potencia = potencia;
+    }
+
+    public int getVoltagem() {
+        return voltagem;
+    }
+
+    public void setVoltagem(int voltagem) {
+        this.voltagem = voltagem;
+    }
+
 }

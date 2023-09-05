@@ -1,34 +1,98 @@
 package com.fiap.challenge.monitorenergia.dominio.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.dto.EnderecoDTO;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
+import jakarta.persistence.*;
+
+import java.util.Objects;
+
+@Entity
+@Table(name = "tb_enderecos")
 public class Endereco {
-    @JsonProperty
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String rua;
-    @JsonProperty
     private int numero;
-    @JsonProperty
     private String complemento;
-    @JsonProperty
     private String bairro;
-    @JsonProperty
     private String cidade;
-    @JsonProperty
     private String estado;
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
-    public Endereco(String rua, int numero, String complemento, String bairro, String cidade, String estado) {
+    public Endereco(){}
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
         this.rua = rua;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
         this.numero = numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
         this.bairro = bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
         this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
-    public EnderecoDTO toEnderecoDTO(){
-        return new EnderecoDTO(rua, numero, complemento, bairro, cidade, estado);
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Endereco endereco = (Endereco) o;
+        return Objects.equals(id, endereco.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

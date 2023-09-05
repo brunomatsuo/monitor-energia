@@ -1,15 +1,19 @@
 package com.fiap.challenge.monitorenergia.dominio.controller;
 
 import com.fiap.challenge.monitorenergia.dominio.dto.EnderecoDTO;
-import com.fiap.challenge.monitorenergia.dominio.repositorio.RepositorioEndereco;
+import com.fiap.challenge.monitorenergia.dominio.services.EnderecoService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.HashSet;
+import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,37 +23,66 @@ import java.util.stream.Collectors;
 public class EnderecoController {
 
     @Autowired
-    private RepositorioEndereco repositorioEndereco;
+    private EnderecoService service;
 
     @Autowired
     private Validator validator;
 
     @GetMapping
-    public ResponseEntity getEnderecos(){
-        Set<EnderecoDTO> enderecos = new HashSet<>();
-        repositorioEndereco.getEnderecos().forEach(endereco -> enderecos.add(endereco.toEnderecoDTO()));
-        return ResponseEntity.ok(enderecos);
+    public ResponseEntity<Page<EnderecoDTO>> getEnderecos(
+            @RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+            @RequestParam(value = "quatidade", defaultValue = "10") Integer quantidade,
+            @RequestParam(value = "direcao", defaultValue = "DESC") String direcao,
+            @RequestParam(value = "ordenacao", defaultValue = "rua") String ordenacao
+    ){
+        PageRequest pageRequest = PageRequest.of(pagina, quantidade, Sort.Direction.valueOf(direcao), ordenacao);
+        var list = service.findAll(pageRequest);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EnderecoDTO> findById(
+            @PathVariable Long id
+    ){
+        EnderecoDTO enderecoDTO = service.findById(id);
+        return ResponseEntity.ok(enderecoDTO);
     }
 
     @PostMapping
-    public ResponseEntity cadastrarEndereco(@RequestBody EnderecoDTO enderecoDTO){
-        Map<Path, String> violacoesToMap = validar(enderecoDTO);
+    public ResponseEntity novoEndereco(@RequestBody EnderecoDTO dto){
+        Map<Path, String> violacoesToMap = validar(dto);
 
         if(!violacoesToMap.isEmpty()){
             return ResponseEntity.badRequest().body(violacoesToMap);
         }
 
-        repositorioEndereco.salvar(enderecoDTO.toEndereco());
-        return ResponseEntity.created(null).body(enderecoDTO);
+        EnderecoDTO enderecoDTO = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand((enderecoDTO.getId())).toUri();
+
+        return ResponseEntity.created(uri).body(enderecoDTO);
     }
 
-    @DeleteMapping
-    public ResponseEntity removerEndereco(@RequestBody EnderecoDTO enderecoDTO){
-        boolean removido = repositorioEndereco.removerEndereco(enderecoDTO.toEndereco());
-        if(!removido){
-            return ResponseEntity.badRequest().body("Endereço não cadastrado.");
+    @PutMapping("/{id}")
+    public ResponseEntity updateEndereco(
+            @PathVariable Long id,
+            @RequestBody EnderecoDTO dto
+    ){
+        Map<Path, String> violacoesToMap = validar(dto);
+
+        if(!violacoesToMap.isEmpty()){
+            return ResponseEntity.badRequest().body(violacoesToMap);
         }
-        return ResponseEntity.ok().body("Endereço removido com sucesso.");
+
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removerEndereco(
+            @PathVariable Long id
+    ){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     private <T> Map<Path, String> validar(T dto){

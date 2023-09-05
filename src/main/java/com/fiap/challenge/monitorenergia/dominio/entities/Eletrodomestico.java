@@ -1,19 +1,22 @@
 package com.fiap.challenge.monitorenergia.dominio.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.dto.EletrodomesticoDTO;
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.*;
 
-@EqualsAndHashCode
+import java.util.Objects;
+
+
+@Entity
+@Table(name = "tb_eletrodomesticos")
 public class Eletrodomestico {
-    @JsonProperty
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
-    @JsonProperty
     private String modelo;
-    @JsonProperty
     private int potencia;
-    @JsonProperty
     private int voltagem;
+
+    public Eletrodomestico(){}
 
     public Eletrodomestico(String nome, String modelo, int potencia, int voltagem) {
         this.nome = nome;
@@ -22,7 +25,52 @@ public class Eletrodomestico {
         this.voltagem = voltagem;
     }
 
-    public EletrodomesticoDTO toEletrodomesticoDTO(){
-        return new EletrodomesticoDTO(nome, modelo, potencia, voltagem);
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getPotencia() {
+        return potencia;
+    }
+
+    public void setPotencia(int potencia) {
+        this.potencia = potencia;
+    }
+
+    public int getVoltagem() {
+        return voltagem;
+    }
+
+    public void setVoltagem(int voltagem) {
+        this.voltagem = voltagem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Eletrodomestico eletrodomestico = (Eletrodomestico) o;
+        return Objects.equals(id, eletrodomestico.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

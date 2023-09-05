@@ -1,11 +1,12 @@
 package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 public class EnderecoDTO {
+    @JsonProperty
+    private Long id;
     @JsonProperty
     @NotBlank(message = "O nome da rua é obrigatório e não pode ser nulo.")
     private String rua;
@@ -24,6 +25,10 @@ public class EnderecoDTO {
     @NotBlank(message = "O estado é obrigatório e não pode ser nulo.")
     private String estado;
 
+    private String usuario;
+
+    public EnderecoDTO(){}
+
     public EnderecoDTO(String rua, int numero, String complemento, String bairro, String cidade, String estado) {
         this.rua = rua;
         this.numero = numero;
@@ -33,7 +38,67 @@ public class EnderecoDTO {
         this.estado = estado;
     }
 
-    public Endereco toEndereco(){
-        return new Endereco(rua, numero, complemento, bairro, cidade, estado);
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }
