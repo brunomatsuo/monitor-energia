@@ -1,7 +1,10 @@
 package com.fiap.challenge.monitorenergia.dominio.services;
 
+import com.fiap.challenge.monitorenergia.dominio.dto.EnderecoDTO;
 import com.fiap.challenge.monitorenergia.dominio.dto.PessoaDTO;
+import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
 import com.fiap.challenge.monitorenergia.dominio.entities.Pessoa;
+import com.fiap.challenge.monitorenergia.dominio.entities.Usuario;
 import com.fiap.challenge.monitorenergia.dominio.repositorio.IPessoaRepository;
 import com.fiap.challenge.monitorenergia.exception.service.ControllerNotFoundException;
 import com.fiap.challenge.monitorenergia.exception.service.DatabaseException;
@@ -22,6 +25,9 @@ public class PessoaService {
     @Autowired
     private IPessoaRepository repository;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     public Page<PessoaDTO> findAll(PageRequest pageRequest) {
         Page<Pessoa> list = repository.findAll(pageRequest);
         return list.map(this::mapperEntityToDto);
@@ -36,7 +42,10 @@ public class PessoaService {
     public PessoaDTO insert(PessoaDTO dto) {
         try {
             Pessoa pessoa = new Pessoa();
-            mapperDtoToEntity(dto, pessoa);
+
+            Usuario usuario = usuarioService.findByName(dto.getUsuario());
+
+            mapperDtoToEntity(dto, pessoa, usuario);
             pessoa = repository.save(pessoa);
 
             return  mapperEntityToDto(pessoa);
@@ -73,6 +82,14 @@ public class PessoaService {
         }
     }
 
+    private void mapperDtoToEntity(PessoaDTO dto, Pessoa pessoa, Usuario usuario){
+        pessoa.setNome(dto.getNome());
+        pessoa.setDataNascimento(dto.getDataNascimento());
+        pessoa.setSexo(dto.getSexo());
+        pessoa.setParentesco(dto.getParentesco());
+        pessoa.setUsuario(usuario);
+    }
+
     private void mapperDtoToEntity(PessoaDTO dto, Pessoa pessoa){
         pessoa.setNome(dto.getNome());
         pessoa.setDataNascimento(dto.getDataNascimento());
@@ -87,6 +104,7 @@ public class PessoaService {
         dto.setDataNascimento(pessoa.getDataNascimento());
         dto.setSexo(pessoa.getSexo());
         dto.setParentesco(pessoa.getParentesco());
+        dto.setUsuario(pessoa.getUsuario().getNome());
 
         return dto;
     }

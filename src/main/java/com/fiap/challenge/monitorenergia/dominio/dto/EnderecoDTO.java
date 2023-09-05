@@ -25,6 +25,8 @@ public class EnderecoDTO {
     @NotBlank(message = "O estado é obrigatório e não pode ser nulo.")
     private String estado;
 
+    private String usuario;
+
     public EnderecoDTO(){}
 
     public EnderecoDTO(String rua, int numero, String complemento, String bairro, String cidade, String estado) {
@@ -90,5 +92,13 @@ public class EnderecoDTO {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }

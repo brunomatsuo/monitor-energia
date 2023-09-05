@@ -2,6 +2,7 @@ package com.fiap.challenge.monitorenergia.dominio.services;
 
 import com.fiap.challenge.monitorenergia.dominio.dto.EnderecoDTO;
 import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
+import com.fiap.challenge.monitorenergia.dominio.entities.Usuario;
 import com.fiap.challenge.monitorenergia.dominio.repositorio.IEnderecoRepository;
 import com.fiap.challenge.monitorenergia.exception.service.ControllerNotFoundException;
 import com.fiap.challenge.monitorenergia.exception.service.DatabaseException;
@@ -23,6 +24,9 @@ public class EnderecoService {
     @Autowired
     private IEnderecoRepository repository;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     public Page<EnderecoDTO> findAll(PageRequest pageRequest){
         Page<Endereco> list = repository.findAll(pageRequest);
         return list.map(this::mapperEntityToDto);
@@ -37,7 +41,10 @@ public class EnderecoService {
     public EnderecoDTO insert(EnderecoDTO dto) {
         try {
             Endereco endereco = new Endereco();
-            mapperDtoToEntity(dto, endereco);
+
+            Usuario usuario = usuarioService.findByName(dto.getUsuario());
+
+            mapperDtoToEntity(dto, endereco, usuario);
             endereco = repository.save(endereco);
 
             return  mapperEntityToDto(endereco);
@@ -74,6 +81,7 @@ public class EnderecoService {
         }
     }
 
+
     private void mapperDtoToEntity(EnderecoDTO dto, Endereco endereco){
         endereco.setRua(dto.getRua());
         endereco.setNumero(dto.getNumero());
@@ -81,6 +89,16 @@ public class EnderecoService {
         endereco.setBairro(dto.getBairro());
         endereco.setCidade(dto.getCidade());
         endereco.setEstado(dto.getEstado());
+    }
+
+    private void mapperDtoToEntity(EnderecoDTO dto, Endereco endereco, Usuario usuario){
+        endereco.setRua(dto.getRua());
+        endereco.setNumero(dto.getNumero());
+        endereco.setComplemento(dto.getComplemento());
+        endereco.setBairro(dto.getBairro());
+        endereco.setCidade(dto.getCidade());
+        endereco.setEstado(dto.getEstado());
+        endereco.setUsuario(usuario);
     }
 
     private EnderecoDTO mapperEntityToDto(Endereco endereco){
@@ -92,6 +110,7 @@ public class EnderecoService {
         dto.setBairro(endereco.getBairro());
         dto.setCidade(endereco.getCidade());
         dto.setEstado(endereco.getEstado());
+        dto.setUsuario(endereco.getUsuario().getNome());
 
         return dto;
     }

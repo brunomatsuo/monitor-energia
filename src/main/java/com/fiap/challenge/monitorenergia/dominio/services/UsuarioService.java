@@ -1,6 +1,10 @@
 package com.fiap.challenge.monitorenergia.dominio.services;
 
+import com.fiap.challenge.monitorenergia.dominio.dto.EnderecoDTO;
+import com.fiap.challenge.monitorenergia.dominio.dto.PessoaDTO;
 import com.fiap.challenge.monitorenergia.dominio.dto.UsuarioDTO;
+import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
+import com.fiap.challenge.monitorenergia.dominio.entities.Pessoa;
 import com.fiap.challenge.monitorenergia.dominio.entities.Usuario;
 import com.fiap.challenge.monitorenergia.dominio.repositorio.IUsuarioRepository;
 import com.fiap.challenge.monitorenergia.exception.service.ControllerNotFoundException;
@@ -14,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,9 +35,17 @@ public class UsuarioService {
     }
 
     public UsuarioDTO findById(Long id) {
+
         Optional<Usuario> entity = repository.findById(id);
         Usuario usuario = entity.orElseThrow(() -> new ControllerNotFoundException("Usuário não encontrado"));
         return mapperEntityToDto(usuario);
+    }
+
+    public Usuario findByName(String nome) {
+
+        Usuario usuario = repository.findByNome(nome);
+
+        return usuario;
     }
 
     public UsuarioDTO insert(UsuarioDTO dto) {
@@ -90,6 +104,49 @@ public class UsuarioService {
         dto.setSexo(usuario.getSexo());
 
         return dto;
+    }
+
+    private List<PessoaDTO> mapperPessoaToDto(List<Pessoa> pessoas){
+        if(pessoas != null) {
+            List<PessoaDTO> lista = new ArrayList<PessoaDTO>();
+            pessoas.forEach(
+                    pessoa -> {
+                        PessoaDTO dto = new PessoaDTO();
+                        dto.setId(pessoa.getId());
+                        dto.setNome(pessoa.getNome());
+                        dto.setDataNascimento(pessoa.getDataNascimento());
+                        dto.setSexo(pessoa.getSexo());
+                        dto.setParentesco(pessoa.getParentesco());
+
+                        lista.add(dto);
+                    }
+            );
+            return lista;
+        }
+        else return null;
+    }
+
+    private EnderecoDTO mapperEnderecoToDto(Endereco endereco){
+        EnderecoDTO dto = new EnderecoDTO();
+        dto.setRua(endereco.getRua());
+        dto.setNumero(endereco.getNumero());
+        dto.setComplemento(endereco.getComplemento());
+        dto.setBairro(endereco.getBairro());
+        dto.setCidade(endereco.getCidade());
+        dto.setEstado(endereco.getEstado());
+
+        return dto;
+    }
+
+    private Endereco mapperDtoToEndereco(EnderecoDTO enderecoDto){
+        Endereco endereco = new Endereco();
+        endereco.setRua(enderecoDto.getRua());
+        endereco.setNumero(enderecoDto.getNumero());
+        endereco.setComplemento(enderecoDto.getComplemento());
+        endereco.setBairro(enderecoDto.getBairro());
+        endereco.setCidade(enderecoDto.getCidade());
+        endereco.setEstado(enderecoDto.getEstado());
+        return endereco;
     }
 
 }

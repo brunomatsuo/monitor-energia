@@ -16,6 +16,10 @@ public class Pessoa {
     private String sexo;
     private String parentesco;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     public Pessoa(){}
 
     public Pessoa(String nome, LocalDate dataNascimento, String sexo, String parentesco) {
@@ -59,6 +63,14 @@ public class Pessoa {
 
     public void setParentesco(String parentesco) {
         this.parentesco = parentesco;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

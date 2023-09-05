@@ -24,6 +24,8 @@ public class PessoaDTO {
     @NotBlank(message = "O grau de parentesco com o usuário é obrigatório e não pode ser nulo.")
     private String parentesco;
 
+    private String usuario;
+
     public PessoaDTO(){}
 
     public PessoaDTO(Long id, String nome, LocalDate dataNascimento, String sexo, String parentesco) {
@@ -71,5 +73,13 @@ public class PessoaDTO {
 
     public void setParentesco(String parentesco) {
         this.parentesco = parentesco;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }

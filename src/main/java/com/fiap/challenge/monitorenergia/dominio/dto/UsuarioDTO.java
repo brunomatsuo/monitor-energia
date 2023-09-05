@@ -1,9 +1,11 @@
 package com.fiap.challenge.monitorenergia.dominio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UsuarioDTO {
     @JsonProperty
@@ -23,9 +25,12 @@ public class UsuarioDTO {
     @NotBlank(message = "O e-mail é obrigatório e não pode ser nulo.")
     private String email;
 
+
+
+
     public UsuarioDTO(){}
 
-    public UsuarioDTO(String nome, LocalDate dataNascimento, String sexo, String email) {
+    public UsuarioDTO(String nome, LocalDate dataNascimento, String sexo, String email, EnderecoDTO enderecoDTO) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;
@@ -71,4 +76,6 @@ public class UsuarioDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

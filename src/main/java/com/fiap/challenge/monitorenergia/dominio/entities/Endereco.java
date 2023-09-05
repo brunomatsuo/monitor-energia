@@ -17,17 +17,11 @@ public class Endereco {
     private String bairro;
     private String cidade;
     private String estado;
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     public Endereco(){}
-
-    public Endereco(String rua, int numero, String complemento, String bairro, String cidade, String estado) {
-        this.rua = rua;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-    }
 
     public Long getId() {
         return id;
@@ -79,6 +73,14 @@ public class Endereco {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
