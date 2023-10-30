@@ -102,6 +102,8 @@ public class UsuarioService {
         dto.setEmail(usuario.getEmail());
         dto.setDataNascimento(usuario.getDataNascimento());
         dto.setSexo(usuario.getSexo());
+        dto.setEndereco(usuario.getEndereco());
+        dto.setPessoa(mapperPessoaToDto(usuario.getPessoas()));
 
         return dto;
     }

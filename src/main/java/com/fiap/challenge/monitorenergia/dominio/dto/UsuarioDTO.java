@@ -1,7 +1,10 @@
 package com.fiap.challenge.monitorenergia.dominio.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fiap.challenge.monitorenergia.dominio.entities.Endereco;
+import com.fiap.challenge.monitorenergia.dominio.entities.Pessoa;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -25,8 +28,11 @@ public class UsuarioDTO {
     @NotBlank(message = "O e-mail é obrigatório e não pode ser nulo.")
     private String email;
 
+    @JsonProperty
+    private Endereco endereco;
 
-
+    @JsonProperty
+    private List<PessoaDTO> pessoas;
 
     public UsuarioDTO(){}
 
@@ -77,5 +83,19 @@ public class UsuarioDTO {
         this.email = email;
     }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
 
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public List<PessoaDTO> getPessoa() {
+        return pessoas;
+    }
+
+    public void setPessoa(List<PessoaDTO> pessoas) {
+        this.pessoas = pessoas;
+    }
 }

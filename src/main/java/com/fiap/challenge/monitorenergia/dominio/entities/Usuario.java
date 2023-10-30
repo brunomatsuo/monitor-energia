@@ -1,5 +1,7 @@
 package com.fiap.challenge.monitorenergia.dominio.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -14,9 +16,9 @@ public class Usuario {
     private LocalDate dataNascimento;
     private String sexo;
     private String email;
-    @OneToOne(mappedBy = "usuario", cascade=CascadeType.PERSIST)
+    @OneToOne(mappedBy = "usuario", cascade=CascadeType.ALL)
     private Endereco endereco;
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", cascade=CascadeType.ALL)
     private List<Pessoa> pessoas;
 
     public Usuario(){}
